@@ -5,7 +5,7 @@ $site_url = "//"
 $source = "//codeberg.org/ssr7/wgen"
 
 def get_title(f)
-	puts "get title " + File.basename("inc/#{f}", ".*")
+	puts "Title: " + File.basename("inc/#{f}", ".*").capitalize
 	title = File.basename("inc/#{f}", ".*").capitalize
 	return title
 end
@@ -17,27 +17,26 @@ def build(f, title)
 	content = File.read("inc/#{f}")
 	modified = File.mtime("inc/#{f}")
 
-	open("site/#{f}", "w") { |f|
-		f.puts "<!DOCTYPE html><html lang='en-gb'>"
-		f.puts "<head><meta charset='UTF=8'>"\
+	open("site/#{f}", "w") { |file|
+		file.puts "<!DOCTYPE html><html lang='en-gb'>"
+		file.puts "<head><meta charset='UTF=8'>"\
 			"<title>#{title} - #$site_name</title>"\
 			"<link href='#$site_url/style.css' rel='stylesheet'>"\
 			"<link href='#$site_url/favicon.ico' rel='icon'>"\
 			"</head><body>"
-		f.puts "<nav>#{nav}"\
+		file.puts "<nav>#{nav}"\
 			"</nav>"
-		f.puts "<!-- Generated file -->"
-		f.puts "<main>#{content}</main>"
-		f.puts "<footer>"\
+		file.puts "<!-- Generated file -->"
+		file.puts "<main><h1>#{title}</h1>#{content}</main>"
+		file.puts "<footer>"\
 			"<div class='copy'>ssr7 &copy; 2023 - "\
 			"<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' target='_blank'>BY-NC-SA</a></div>"\
 			"<div class='modified'>Last modified: #{modified.strftime("Last modified: %T %Z %A, %B %Y")}"\
 			"[<a href='#$source/edit/master/#{f}' target='_blank'>edit</a>]</div>"\
 			"</footer>"
-		f.puts "</body></html>"
-		f.close
+		file.puts "</body></html>"
+		file.close
 	}
-
 end
 
 def generate()
@@ -45,8 +44,7 @@ def generate()
 	puts pages.inspect
 
 	pages.each do |i|
-		#next if i.include?("meta")
-		next if i.exclude?(".html")
+		next if i.include?("meta")
 			title = get_title(i)
 			build(i, title)
 		end
