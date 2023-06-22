@@ -9,16 +9,55 @@ def get_title(f)
 	return title
 end
 
-def get_content(f)
-	replacements = {
-		"{" => "<a href='#{f}'>",
-		"}" => "</a>"
-	}
+# def get_content(f)
+# 	links = []
+# 	content = File.read("inc/#{f}")
+# 	links.push(content.scan(/\{(.*?)\}/))
+#
+# 	puts "Links[]: " + links.inspect
+# 	i = 0
+# 	replacements = {
+# 		"{" => "<a href='#{links[i]}.html'>",
+# 		"}" => "</a>",
+#			" " => "_"
+# 	}
+#
+# 	links.each do
+# 		replacements.each do |find, replace|
+# 			i += 1
+# 		content.gsub!(find, replace)
+# 		end
+#
+# 	end
+# 	return content
+# end
 
+def insert_links(f)
+	links = f.scan(/(?<=\{).*?(?=\})/) # https://stackoverflow.com/a/56334915
+	puts "links[]: " + links.inspect
+	return links
+end
+
+def get_content(f)
+	#content = insert_links(File.read("inc/#{f}"))
 	content = File.read("inc/#{f}")
-	replacements.each do |find, replace|
+	links = content.scan(/(?<=\{).*?(?=\})/) # https://stackoverflow.com/a/56334915
+	puts "links[]: " + links.inspect
+
+	i=0
+	links.each do
+		replacements = {
+			"{" => "<a href='#{links[i]}.html'>",
+			"}" => "</a>",
+		}
+		replacements.each do |find, replace|
 		content.gsub!(find, replace)
+		i += 1
+		puts "i: " + i.to_s
+		end
+
 	end
+
 	return content
 end
 
@@ -45,6 +84,7 @@ def assemble(file, title)
 		"</footer>",
 		"</body></html>"
 	]
+
 	return page
 end
 
@@ -57,14 +97,14 @@ def generate
 		next if page.include?("meta")
 			File.open("site/#{page}", "w") { |file|
 				title = get_title(page)
-				content = assemble(page, title)
+				content = assemble("index.html", title)
 				content.each { |line| file.puts line }
 				puts "Generated: #{page}"
-				i += 1
 			}
+		i += 1
 	end
+
 	puts "Page(s) generated: #{i}"
 end
 
-#get_content("index.html")
 generate()
