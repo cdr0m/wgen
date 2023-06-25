@@ -9,29 +9,6 @@ def get_title(f)
 	return title
 end
 
-# def get_content(f)
-# 	links = []
-# 	content = File.read("inc/#{f}")
-# 	links.push(content.scan(/\{(.*?)\}/))
-#
-# 	puts "Links[]: " + links.inspect
-# 	i = 0
-# 	replacements = {
-# 		"{" => "<a href='#{links[i]}.html'>",
-# 		"}" => "</a>",
-#			" " => "_"
-# 	}
-#
-# 	links.each do
-# 		replacements.each do |find, replace|
-# 			i += 1
-# 		content.gsub!(find, replace)
-# 		end
-#
-# 	end
-# 	return content
-# end
-
 def insert_links(f)
 	links = f.scan(/(?<=\{).*?(?=\})/) # https://stackoverflow.com/a/56334915
 	puts "links[]: " + links.inspect
@@ -39,24 +16,26 @@ def insert_links(f)
 end
 
 def get_content(f)
-	#content = insert_links(File.read("inc/#{f}"))
 	content = File.read("inc/#{f}")
-	links = content.scan(/(?<=\{).*?(?=\})/) # https://stackoverflow.com/a/56334915
-	puts "links[]: " + links.inspect
+	links = content.scan(/\{.*?\}/)
 
-	i=0
-	links.each do
-		replacements = {
-			"{" => "<a href='#{links[i]}.html'>",
-			"}" => "</a>",
-		}
-		replacements.each do |find, replace|
-		content.gsub!(find, replace)
+	i = 0
+	links.each do |link|
+		# Very messy
+		title = link.scan(/(?<=\{).*?(?=\})/)
+		title = title[0].downcase
+		title.sub!(/\s/, "_")
+
+		a_link = link.sub(/^\{/, "<a href='#{links[i]}.html'>")
+		a_link = link.sub(/(\{).*?(\})/, title)
+		a_link = link.sub(/\}$/, "</a>")
+		puts "a_link: " + a_link
+		content.gsub!(links[i], a_link)
 		i += 1
-		puts "i: " + i.to_s
-		end
-
 	end
+	tags = []
+	puts "links[]: " + links.inspect
+	puts "tags[]: " + tags.inspect
 
 	return content
 end
@@ -97,7 +76,7 @@ def generate
 		next if page.include?("meta")
 			File.open("site/#{page}", "w") { |file|
 				title = get_title(page)
-				content = assemble("index.html", title)
+				content = assemble(page, title)
 				content.each { |line| file.puts line }
 				puts "Generated: #{page}"
 			}
