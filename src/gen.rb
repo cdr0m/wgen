@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-$site_name = "test website"
-$site_url = ""
+$name = "Cave of Birds"
+$url = "https://caveofbirds.neocities.org"
 $source = "https://codeberg.org/ssr7/wgen"
 
 def get_title(f)
@@ -39,21 +39,22 @@ def assemble(file, title)
 	nav = File.read("inc/meta.nav.html")
 	content = get_content(file)
 	modified = File.mtime("inc/#{file}")
+	title = title.capitalize()
 
 	page = [
 		"<!DOCTYPE html><html lang='en-gb'>",
 		"<head><meta charset='UTF=8'>",
-		"<title>#{title} - #$site_name</title>",
-		"<link href='#$site_url/style.css' rel='stylesheet'>",
-		"<link href='#$site_url/favicon.ico' rel='icon'>",
+		"<title>#$name - #{title}</title>",
+		"<link href='../links/style.css' rel='stylesheet'>",
+		"<link href='../links/favicon.ico' rel='icon'>",
 		"</head><body>",
-		"<nav>#{nav}</nav>",
+		"<div class='flex'><nav>#{nav}</nav>",
 		"<!-- Generated file -->",
-		"<main><h1>#{title}</h1>#{content}</main>",
+		"<main><h1>#{title}</h1>",
+		"#{content}</main></div>",
 		"<footer>",
-		"<div class='copy'>ssr7 &copy; 2023 - ",
-		"<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' target='_blank'>BY-NC-SA</a></div>",
-		"<div class='modified'>Last modified: #{modified.strftime("Last modified: %T %Z %A, %B %Y")}",
+		"<div class='copy'>ssr7 &copy; 2023",
+		"<div class='modified'>Last modified: #{modified.strftime("Last modified: %T %Z %A, %-d %B %Y")}",
 		"[<a href='#$source/_edit/master/inc/#{file}' target='_blank'>edit</a>]</div>",
 		"</footer>",
 		"</body></html>"
@@ -69,7 +70,7 @@ def generate
 	i = 0
 	files.each do |page|
 		next if page.include?("meta")
-			File.open("site/#{page}", "w") { |file|
+			File.open("../site/#{page}", "w") { |file|
 				title = get_title(page)
 				content = assemble(page, title)
 				content.each { |line| file.puts line }

@@ -1,0 +1,18 @@
+:root {
+	--colour-base:#111;
+	--colour-text: #ddd;
+}
+
+body {
+	background-color: var(--colour-base);
+	color: var(--colour-text);
+}
+
+nav {width: 150px;}
+
+h1 {display: none;}
+
+a {color: inherit;}
+.flex {display: flex;}
+.nodec {text-decoration: none;}
+.nobull {list-style-type: none;}
