@@ -9,35 +9,30 @@ def get_title(f)
 	return title
 end
 
-def insert_links(f)
-	links = f.scan(/(?<=\{).*?(?=\})/) # https://stackoverflow.com/a/56334915
-	puts "links[]: " + links.inspect
-	return links
+def insert_links(c)
+	links = c.scan(/\{.*?\}/)
+
+	i = 0
+	links.each do |l|
+		f_name = l.scan(/(?<=\{).*?(?=\})/)
+		f_name = f_name[0].downcase
+		f_name.sub!(/\s/, "_")
+
+		a_link = l.sub(/^\{/, "<a href='#{f_name}.html'>")
+		a_link = a_link.sub(/\}$/, "</a>")
+
+		c.sub!(/#{links[i]}/, a_link)
+		i += 1
+	end
+
+	return c
 end
 
 def get_content(f)
-	content = File.read("inc/#{f}")
-	links = content.scan(/\{.*?\}/)
+	c = File.read("inc/#{f}")
+	insert_links(c)
 
-	i = 0
-	links.each do |link|
-		# Very messy
-		title = link.scan(/(?<=\{).*?(?=\})/)
-		title = title[0].downcase
-		title.sub!(/\s/, "_")
-
-		a_link = link.sub(/^\{/, "<a href='#{links[i]}.html'>")
-		a_link = link.sub(/(\{).*?(\})/, title)
-		a_link = link.sub(/\}$/, "</a>")
-		puts "a_link: " + a_link
-		content.gsub!(links[i], a_link)
-		i += 1
-	end
-	tags = []
-	puts "links[]: " + links.inspect
-	puts "tags[]: " + tags.inspect
-
-	return content
+	return c
 end
 
 def assemble(file, title)
@@ -68,11 +63,11 @@ def assemble(file, title)
 end
 
 def generate
-	pages = Dir.children("inc")
-	puts "Pages: " + pages.inspect
+	files = Dir.children("inc")
+	puts "Files found: " + files.inspect
 
 	i = 0
-	pages.each do |page|
+	files.each do |page|
 		next if page.include?("meta")
 			File.open("site/#{page}", "w") { |file|
 				title = get_title(page)
