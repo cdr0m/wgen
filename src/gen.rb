@@ -53,7 +53,7 @@ def assemble(file, title)
 		"<main><h1>#{title}</h1>",
 		"#{content}</main></div>",
 		"<footer>",
-		"<div class='copy'>ssr7 &copy; 2023",
+		"<div class='copy'>ssr7 &copy; 2023</div>",
 		"<div class='modified'>Last modified: #{modified.strftime("Last modified: %T %Z %A, %-d %B %Y")}",
 		"[<a href='#$source/_edit/master/src/inc/#{file}' target='_blank'>edit</a>]</div>",
 		"</footer>",
