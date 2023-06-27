@@ -68,18 +68,18 @@ def generate
 	puts "Files found: " + files.inspect
 
 	i = 0
-	files.each do |page|
-		next if page.include?("meta")
-			File.open("../site/#{page}", "w") { |file|
-				title = get_title(page)
-				content = assemble(page, title)
-				content.each { |line| file.puts line }
-				puts "Generated: #{page}"
+	files.each do |file|
+		next if file.include?("meta")
+			File.open("../site/#{file}", "w") { |f|
+				title = get_title(file)
+				content = assemble(file, title)
+				content.each { |line| f.puts line }
+				puts "Generated: #{file}"
 			}
 		i += 1
 	end
 
-	puts "Page(s) generated: #{i}"
+	puts "Files generated: #{i}"
 end
 
 generate()
