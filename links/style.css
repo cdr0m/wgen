@@ -6,13 +6,20 @@
 body {
 	background-color: var(--colour-base);
 	color: var(--colour-text);
+
 }
+a {color: inherit;}
 
 nav {width: 150px;}
-main {width: 650px;}
-h1 {display: none;}
+nav > ul {padding: 0;}
 
-a {color: inherit;}
+main {width: 650px;}
+main > h1 {display: none;}
+main > img {width: 100%; padding-bottom: 15px;}
+
+
+footer {display: flex; border-top: 2px var(--colour-text) solid; padding-top: 15px;}
+
 .flex {display: flex;}
 .nodec {text-decoration: none;}
 .nobull {list-style-type: none;}
