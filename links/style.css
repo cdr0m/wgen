@@ -9,7 +9,7 @@ body {
 }
 
 nav {width: 150px;}
-
+main {width: 650px;}
 h1 {display: none;}
 
 a {color: inherit;}
