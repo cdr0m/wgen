@@ -8,19 +8,21 @@
 
 body {background-color: var(--colour-base);	color: var(--colour-text); font-family: var(--font-base)}
 
-header {display: flex; justify-content: flex-start;}
+header {display: flex; justify-content: flex-start; margin-bottom: 15px;}
 header > img {width: 30px; margin-right: 15px;}
-header > span {font-size: 24px;}
+header > span {font-size: 24px; font-weight: bold;}
 
 nav {width: 150px;}
-nav > ul {padding: 0;}
+nav > ul {padding: 0px; margin-top: 0px;}
 
 main {max-width: 650px;}
 main > h1 {display: none;}
+main > h2 {font-size: 20px; margin-top: 0px; margin-bottom: 15px;}
+main p {margin-top: 0px; margin-bottom: 15px;}
 main img {width: 100%; padding-bottom: 15px;}
 main img.medium {max-width: 300px;}
 main img.small {max-width: 150px;}
-
+main > ul {margin-top: 0px;}
 footer {display: flex; justify-content: space-between; border-top: 2px var(--colour-text) solid; padding-top: 15px;}
 
 a {color: inherit;}
