@@ -2,31 +2,28 @@
 $name = "Cave of Birds"
 $url = "https://caveofbirds.neocities.org"
 $source = "https://codeberg.org/ssr7/wgen"
-$input_dir = "inc"
-$output_dir = "../site"
-$links = "../links" # stylesheet, favicon, etc
 
 def parse(f)
-	c = content = File.read("inc/#{f}")
-
-	def file_name(c, action)
-
+	c = File.read("inc/#{f}")
 
 	# Replace embed tags with content
 	i = 0
-	embeds = c.scan(/\{\/.*?\}/)
+	embeds = c.scan(/\{[^\/].*?\}/)
 	embeds.each do |embed|
-		f_name = embed.scan(/(?<=\{\/).*?(?=\})/)
-		f_name = f_name[0].downcase
-		f_name.sub!(/\s/, "_")
+		unless embeds.empty?
+			f_name = embed.scan(/(?<=\{\/).*?(?=\})/)
+			f_name = f_name[0].downcase
+			f_name.sub!(/\s/, "_")
 
-		c.sub!(/#{embeds[i]}/, content)
-		i += 1
+			content = File.read("inc/#{f}")
+			c.sub!(/#{embeds[i]}/, content)
+			i += 1
+		end
 	end
 
 	# Replace link tags with <a> tags
 	i = 0
-	links = c.scan(/\{[^\/].*?\}/)
+	links = c.scan(/\{.*?\}/)
 	links.each do |link|
 		f_name = link.scan(/(?<=\{).*?(?=\})/)
 		f_name = f_name[0].downcase
@@ -39,23 +36,26 @@ def parse(f)
 		i += 1
 	end
 
+	puts "embeds: " + embeds.inspect
+	puts "links: " + embeds.inspect
+
 	return c
 end
 
 def assemble(f)
-	nav = File.read("#$input_dir/meta.nav.html")
+	nav = File.read("inc/meta.nav.html")
 	content = parse(f)
-	modified = File.mtime("#$input_dir/#{f}")
+	modified = File.mtime("inc/#{f}")
 	title = File.basename(f, ".html").capitalize()
 
 	output = [
 		"<!DOCTYPE html><html lang='en-gb'>",
 		"<head><meta charset='UTF=8'>",
 		"<title>#$name - #{title}</title>",
-		"<link href='#$links/style.css' rel='stylesheet'>",
-		"<link href='#$links/icon.svg' rel='icon'>",
+		"<link href='../links/style.css' rel='stylesheet'>",
+		"<link href='../links/icon.svg' rel='icon'>",
 		"</head><body>",
-		"<header><img src='#$links/icon.svg'><span>#$name</span></header>",
+    "<header><img src='../links/icon.svg'><span>#$name</span></header>",
 		"<div class='flex'><nav>#{nav}</nav>",
 		"<!-- Generated file -->",
 		"<main><h1>#{title}</h1>",
@@ -78,7 +78,7 @@ def main
 	i = 0
 	files.each do |file|
 		next if file.include?("meta")
-		File.open("#$output_dir/#{file}", "w") { |f|
+		File.open("../site/#{file}", "w") { |f|
 			content = assemble(file)
 			content.each { |line| f.puts line }
 			puts "Generated: #{file}"
