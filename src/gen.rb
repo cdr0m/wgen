@@ -1,47 +1,54 @@
 #!/usr/bin/env ruby
-
 $name = "Cave of Birds"
 $url = "https://caveofbirds.neocities.org"
 $source = "https://codeberg.org/ssr7/wgen"
 
-def get_title(f)
-	title = File.basename(f, ".*")
-	return title
-end
+def parse(f)
+	c = File.read("inc/#{f}")
 
-def insert_links(c)
-	links = c.scan(/\{.*?\}/)
-
+	# Replace embed tags with content
 	i = 0
-	links.each do |l|
-		f_name = l.scan(/(?<=\{).*?(?=\})/)
+	embeds = c.scan(/\{[^\/].*?\}/)
+	embeds.each do |embed|
+		unless embeds.empty?
+			f_name = embed.scan(/(?<=\{\/).*?(?=\})/)
+			f_name = f_name[0].downcase
+			f_name.sub!(/\s/, "_")
+
+			content = File.read("inc/#{f}")
+			c.sub!(/#{embeds[i]}/, content)
+			i += 1
+		end
+	end
+
+	# Replace link tags with <a> tags
+	i = 0
+	links = c.scan(/\{.*?\}/)
+	links.each do |link|
+		f_name = link.scan(/(?<=\{).*?(?=\})/)
 		f_name = f_name[0].downcase
 		f_name.sub!(/\s/, "_")
 
-		a_link = l.sub(/^\{/, "<a href='#{f_name}.html'>")
+		a_link = link.sub(/^\{/, "<a href='#{f_name}.html'>")
 		a_link = a_link.sub(/\}$/, "</a>")
 
 		c.sub!(/#{links[i]}/, a_link)
 		i += 1
 	end
 
-	return c
-end
-
-def get_content(f)
-	c = File.read("inc/#{f}")
-	insert_links(c)
+	puts "embeds: " + embeds.inspect
+	puts "links: " + embeds.inspect
 
 	return c
 end
 
-def assemble(file, title)
+def assemble(f)
 	nav = File.read("inc/meta.nav.html")
-	content = get_content(file)
-	modified = File.mtime("inc/#{file}")
-	title = title.capitalize()
+	content = parse(f)
+	modified = File.mtime("inc/#{f}")
+	title = File.basename(f, ".html").capitalize()
 
-	page = [
+	output = [
 		"<!DOCTYPE html><html lang='en-gb'>",
 		"<head><meta charset='UTF=8'>",
 		"<title>#$name - #{title}</title>",
@@ -56,31 +63,30 @@ def assemble(file, title)
 		"<footer>",
 		"<span>ssr7 &copy; 2023</span>",
 		"<span>#{modified.strftime("Last modified: %T %Z %A, %-d %B %Y")}",
-		"[<a href='#$source/_edit/master/src/inc/#{file}' target='_blank'>edit</a>]</span>",
+		"[<a href='#$source/_edit/master/src/inc/#{f}' target='_blank'>edit</a>]</span>",
 		"</footer>",
 		"</body></html>"
 	]
 
-	return page
+	return output
 end
 
-def generate
+def main
 	files = Dir.children("inc")
 	puts "Files found: " + files.inspect
 
 	i = 0
 	files.each do |file|
 		next if file.include?("meta")
-			File.open("../site/#{file}", "w") { |f|
-				title = get_title(file)
-				content = assemble(file, title)
-				content.each { |line| f.puts line }
-				puts "Generated: #{file}"
-			}
+		File.open("../site/#{file}", "w") { |f|
+			content = assemble(file)
+			content.each { |line| f.puts line }
+			puts "Generated: #{file}"
+		}
 		i += 1
 	end
 
 	puts "Files generated: #{i}"
 end
 
-generate()
+main()
