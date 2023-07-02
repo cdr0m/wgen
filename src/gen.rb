@@ -26,9 +26,9 @@ def main
 end
 
 def build_page(f)
-	nav = File.read("#$input_dir/meta.nav.html")
 	modified = File.mtime("#$input_dir/#{f}")
 	title = File.basename(f, ".html").capitalize()
+	nav = parse("meta.nav.html")
 	content = parse(f)
 
 	output = [
@@ -46,7 +46,7 @@ def build_page(f)
 		"<footer>",
 		"<span>ssr7 &copy; 2023</span>",
 		"<span>Last modified: #{modified.strftime("%T %Z %A, %-d %B %Y")}",
-		"[<a href='#$source/_edit/master/src/inc/#{f}' target='_blank'>edit</a>]</span>",
+		"<a href='#$source/_edit/master/src/inc/#{f}' target='_blank'>edit</a>]</span>",
 		"</footer>",
 		"</body></html>"
 	]
