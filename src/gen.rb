@@ -31,6 +31,15 @@ def build_page(f)
 	nav = parse("meta.nav.html")
 	content = parse(f)
 
+	if f == "index.html"
+		files = Dir.children("inc").sort
+		content = "<ul>"
+		files.each do |file|
+			content += "<li><a href='#{file}' class='cap'>#{file.split(/\s|\./)[0]}</a></li>"
+		end
+		content += "</ul>"
+	end
+
 	output = [
 		"<!DOCTYPE html><html lang='en-gb'>",
 		"<head><meta charset='UTF=8'>",

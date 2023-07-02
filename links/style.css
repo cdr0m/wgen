@@ -30,3 +30,4 @@ a {color: inherit;}
 .flex {display: flex;}
 .nodec {text-decoration: none;}
 .nobull {list-style-type: none;}
+.cap {text-transform: capitalize;}
