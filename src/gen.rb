@@ -35,7 +35,7 @@ def build_page(f)
 		files = Dir.children("inc").sort
 		content = "<ul>"
 		files.each do |file|
-			content += "<li><a href='#{file}' class='cap'>#{file.split(/\s|\./)[0]}</a></li>"
+			content += "<li><a href='#{file}' class='cap'>#{file.split(/\s|\./)[0]}</a></li>\n"
 		end
 		content += "</ul>"
 	end
@@ -64,27 +64,38 @@ def build_page(f)
 end
 
 def parse(f)
-	c = File.read("inc/#{f}")
+	content = File.read("inc/#{f}")
 
-	embeds = c.scan(/\{\/.*?\}/)
+	embeds = content.scan(/\{\/.*?\}/)
 	embeds.each_with_index do |embed, i|
-		f_name = embed.scan(/(?<=\{\/).*?(?=\})/)
-		f_name = f_name[0].downcase
-		f_name.sub!(/\s/, "_")
-		c.sub!(/#{embeds[i]}/, File.read("#$input_dir/#{f_name}.html"))
+    f_name = filename(embed, "embed")
+		content.sub!(/#{embeds[i]}/, File.read("#$input_dir/#{f_name}.html"))
 	end
 
-	links = c.scan(/\{[^\/].*?\}/)
+	links = content.scan(/\{[^\/].*?\}/)
 	links.each_with_index do |link, i|
-		f_name = link.scan(/(?<=\{).*?(?=\})/)
-		f_name = f_name[0].downcase
-		f_name.sub!(/\s/, "_")
+    f_name = filename(link, "link")
 		a_link = link.sub(/^\{/, "<a href='#{f_name}.html'>")
 		a_link = a_link.sub(/\}$/, "</a>")
-		c.sub!(/#{links[i]}/, a_link)
+		content.sub!(/#{links[i]}/, a_link)
 	end
 
-	return c
+	return content
+end
+
+def filename(string, action)
+  if action == "embed"
+		f_name = string.scan(/(?<=\{\/).*?(?=\})/)
+  end
+
+  if action == "link"
+		f_name = string.scan(/(?<=\{).*?(?=\})/)
+  end
+
+  content = f_name[0].downcase
+  content.sub!(/\s/, "_")
+
+  return content
 end
 
 main()
