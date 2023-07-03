@@ -54,7 +54,7 @@ def build_page(f)
     "<footer>",
     "<span>ssr7 &copy; 2023</span>",
     "<span>Last modified: #{modified.strftime("%T %Z %A, %-d %B %Y")}",
-    "<a href='#$source/_edit/master/src/inc/#{f}' target='_blank'>edit</a>]</span>",
+    "[<a href='#$source/_edit/master/src/inc/#{f}' target='_blank'>edit</a>]</span>",
     "</footer>",
     "</body></html>"
   ]
