@@ -12,7 +12,7 @@ def main
 
   i = 0
   files.each do |file|
-    next if file.start_with?("meta.") || !file.end_with?(".html")
+    next if file.start_with?("meta.") || !file.end_with?(".html") || file.include?("#")
     File.open("#$output_dir/#{file}", "w") do |f|
       content = build_page(file)
       content.each { |line| f.puts line }
