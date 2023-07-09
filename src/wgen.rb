@@ -10,11 +10,12 @@ def parse(f)
   content = File.read("inc/#{f}")
   tags = content.scan(/\{\/?[^\/].*?\}/)
   tags.each do |tag|
-    filename = tag.scan(/(?<=\{).*?(?=\})/)
+    filename = tag.scan(/(?<=\{[^\\]).*?(?=\})/)
     filename = filename[0].sub(/\s/, "_")
-
+    
     if tag.match?(/\{\/.*?\}/)
-      content.sub!(/#{tag}/, File.read("#$input_dir/#{filename.downcase}.html"))
+      content.sub!(/#{tag}/, "<h2 class='cap'>#{filename}</h2>" +
+                             File.read("#$input_dir/#{filename.downcase}.html"))
     else
       a_tag = tag.sub(/^\{/, "<a href='#{filename.downcase}.html'>")
       a_tag = a_tag.sub(/\}$/, "</a>")
