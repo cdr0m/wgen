@@ -1,5 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+# Cleanup
 rm -rf ../site
 mkdir ../site
 
-ruby gen.rb
+ruby wgen.rb
