@@ -1,9 +1,9 @@
 :root {
     --colour-base: #0a100d;
     --colour-text: #f8f1ff;
-    --colour-highlight: #f5f749;
-    --colour-border: #2e86ab;
-    --font-base: 'Times New Roman', serif;
+    --colour-highlight: #6efafb;
+    --colour-border: #ef233c;
+    --font-base: 'Georgia', serif;
     --font-heading: ;
     --font-mono: monospace;
 }
