@@ -26,11 +26,16 @@ def parse(f)
 end
 
 files = Dir.children("inc").sort
+files.keep_if {|file| file =~ /^[^.]+\.html$/}
+
+if files.empty?
+  abort("No files found in .\/#$input_dir")
+end
+
 puts "Files found: #{files.inspect}"
 
 i = 0
 files.each do |file|
-  next if file.start_with?("meta.") || !file.end_with?(".html") || file.include?("#")
   File.open("#$output_dir/#{file}", "w") do |f|
     modified = File.mtime("#$input_dir/#{file}")
     title = File.basename(file, ".html").capitalize()
