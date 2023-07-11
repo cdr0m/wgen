@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-$name = "Cave of Birds"
-$url = "https://caveofbirds.neocities.org"
+$name = "Seabreeze"
+$url = "https://seabreeze.neocities.org"
 $source = "https://codeberg.org/ssr7/wgen"
 $input_dir = "inc"
 $output_dir = "../site"
@@ -18,7 +18,7 @@ def parse(f)
                              File.read("#$input_dir/#{filename.downcase}.html"))
     else
       a_tag = tag.sub(/^\{/, "<a href='#{filename.downcase}.html'>")
-      a_tag = a_tag.sub(/\}$/, "</a>")
+      a_tag.sub!(/\}$/, "</a>")
       content.sub!(/#{tag}/, a_tag)
     end
   end
@@ -57,7 +57,7 @@ files.each do |file|
     f.puts "<link href='#$links/style.css' rel='stylesheet'>"
     f.puts "<link href='#$links/icon.svg' rel='icon'>"
     f.puts "</head><body>"
-    f.puts "<header><img src='#$links/icon.svg'><span>#$name</span></header>"
+    f.puts "<header><a href='home.html'><img src='#$links/icon.svg'><span>#$name</span></a></header>"
     f.puts "<div class='flex'><nav>#{nav}</nav>"
     f.puts "<!-- Generated file -->"
     f.puts "<main><h1>#{title}</h1>"
@@ -65,7 +65,7 @@ files.each do |file|
     f.puts "<footer>"
     f.puts "<span>ssr7 &copy; 2023</span>"
     f.puts "<span>Last modified: #{modified.strftime("%T %Z %A, %-d %B %Y")}"
-    f.puts "[<a href='#$source/_edit/master/src/inc/#{f}' target='_blank'>edit</a>]</span>"
+    f.puts "<a href='#$source/_edit/master/src/inc/#{file}' target='_blank'>[edit]</a></span>"
     f.puts "</footer>"
     f.puts "</body></html>"
 
@@ -76,3 +76,4 @@ files.each do |file|
 end
 
 puts "#{i} files generated"
+
