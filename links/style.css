@@ -3,7 +3,7 @@
     --colour-text: #f8f1ff;
     --colour-highlight: #6efafb;
     --colour-border: #ef233c;
-    --font-base: 'Georgia', serif;
+    --font-base: sans-serif;
     --font-heading: ;
     --font-mono: monospace;
 }
@@ -12,15 +12,17 @@ body {
     background-color: var(--colour-base);
     color: var(--colour-text);
     font-family: var(--font-base);
-    font-size: 1.1em; line-height: 120%;
+    font-size: 1em; line-height: 1.5em;
 }
 
 header {display: flex; justify-content: flex-start; margin-bottom: 15px;}
-header > img {width: 30px; margin-right: 15px;}
-header > span {font-size: 2rem; font-weight: bold; line-height: normal;}
+header > a {text-decoration: none; line-height: normal;}
+header > a > img {width: 30px; margin-right: 15px;}
+header > a > span {font-size: 2rem; font-weight: bold;}
 
 nav {width: 150px;}
 nav > ul {padding: 0px; margin-top: 0px;}
+nav > ul > li:first-letter {text-transform: capitalize;}
 
 main {max-width: 650px;}
 main > h1 {display: none;}
@@ -39,4 +41,3 @@ a {color: inherit;}
 .nodec {text-decoration: none;}
 .nobull {list-style-type: none;}
 .cap:first-letter {text-transform: capitalize;}
-
