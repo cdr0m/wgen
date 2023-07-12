@@ -7,7 +7,7 @@ $output_dir = "../site"
 $links = "../links" # stylesheet, favicon, etc
 
 def parse(f)
-  content = File.read("inc/#{f}")
+  content = File.read("#$input_dir/#{f}")
   tags = content.scan(/\{\/?[^\/].*?\}/)
   tags.each do |tag|
     filename = tag.tr("{/}", "")
@@ -68,7 +68,7 @@ files.each do |file|
     f.puts "<a href='#$source/_edit/master/src/inc/#{file}' target='_blank'>[edit]</a></span>"
     f.puts "</footer>"
     f.puts "</body></html>"
-
+    f.close
     puts "Generated: #{file}"
   end
 
