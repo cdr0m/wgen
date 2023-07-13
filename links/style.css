@@ -1,39 +1,37 @@
 :root {
-    --colour-base: #0a100d;
-    --colour-text: #f8f1ff;
-    --colour-highlight: #6efafb;
-    --colour-border: #ef233c;
+    --colour-bg: #0a100d;
+    --colour-base: #f8f1ff;
     --font-base: sans-serif;
-    --font-heading: ;
     --font-mono: monospace;
 }
 
 body {
-    background-color: var(--colour-base);
-    color: var(--colour-text);
+    background-color: var(--colour-bg);
+    color: var(--colour-base);
     font-family: var(--font-base);
-    font-size: 1em; line-height: 1.5em;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 header {display: flex; justify-content: flex-start; margin-bottom: 15px;}
-header > a {text-decoration: none; line-height: normal;}
-header > a > img {width: 30px; margin-right: 15px;}
-header > a > span {font-size: 2rem; font-weight: bold;}
+header a {text-decoration: none; line-height: normal;}
+header a img {width: 30px; margin-right: 15px;}
+header a span {font-size: 30px; font-weight: bold;}
 
-nav {width: 150px;}
-nav > ul {padding: 0px; margin-top: 0px;}
-nav > ul > li:first-letter {text-transform: capitalize;}
+nav {width: 150px; font-size: 16px}
+nav ul {padding: 0px; margin-top: 0px;}
+nav ul li:first-letter {text-transform: capitalize;}
 
 main {max-width: 650px;}
 main > h1 {display: none;}
-main > h2 {font-size: 2rem;}
+main > h2 {font-size: 30px;}
 main p {margin-top: 0px; margin-bottom: 15px;}
 main img {width: 100%; padding-bottom: 15px;}
 main img.medium {max-width: 300px;}
 main img.small {max-width: 150px;}
 main > ul {margin-top: 0px;}
 
-footer {display: flex; justify-content: space-between; border-top: 2px var(--colour-text) solid; padding-top: 15px;}
+footer {display: flex; justify-content: space-between; border-top: 2px var(--colour-base) solid; padding-top: 15px;}
 
 a {color: inherit;}
 
