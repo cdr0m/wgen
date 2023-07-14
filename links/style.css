@@ -19,12 +19,12 @@ header a img {width: 30px; margin-right: 15px;}
 header a span {font-size: 30px; font-weight: bold;}
 
 nav {width: 150px; font-size: 16px}
+nav div {margin-bottom: 30px;}
 nav ul {padding: 0px; margin-top: 0px;}
 nav ul li:first-letter {text-transform: capitalize;}
 
 main {max-width: 650px;}
 main > h1 {display: none;}
-main > h2 {font-size: 30px;}
 main p {margin-top: 0px; margin-bottom: 15px;}
 main img {width: 100%; padding-bottom: 15px;}
 main img.medium {max-width: 300px;}
@@ -33,7 +33,11 @@ main > ul {margin-top: 0px;}
 
 footer {display: flex; justify-content: space-between; border-top: 2px var(--colour-base) solid; padding-top: 15px;}
 
+h2 {font-size: 30px;}
 a {color: inherit;}
+
+.gallery {display: flex; flex-wrap: wrap; justify-content: space-between; width: 650px;}
+.gallery img {width: 205px; height: 150px; object-fit: cover; row-gap: 10px;}
 
 .flex {display: flex;}
 .nodec {text-decoration: none;}
