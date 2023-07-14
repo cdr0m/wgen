@@ -36,9 +36,10 @@ footer {display: flex; justify-content: space-between; border-top: 2px var(--col
 h2 {font-size: 30px;}
 a {color: inherit;}
 
-.gallery {display: flex; flex-wrap: wrap; justify-content: space-between; width: 650px;}
-.gallery img {width: 205px; height: 150px; object-fit: cover; row-gap: 10px;}
+.gallery {display: flex; flex-wrap: wrap; justify-content: space-between; row-gap: 10px; width: 650px;}
+.gallery img {width: 200px; height: 150px; object-fit: cover;}
 
+.error {background-color: crimson; padding: 10px;}
 .flex {display: flex;}
 .nodec {text-decoration: none;}
 .nobull {list-style-type: none;}
