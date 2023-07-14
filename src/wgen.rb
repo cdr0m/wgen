@@ -12,18 +12,20 @@ def parse(f)
   tags.each do |tag|
     filename = tag.tr("{/}", "")
     filename.gsub!(/\s/, "_")
-
+    linkname = filename
+    filename = "#{filename.downcase}.html"
+    
     if tag.match?(/\{\/.*?\}/)
-      if File.exists?("#$input_dir/#{filename.downcase}.html")
+      if File.exists?("#$input_dir/#{filename}")
         content.sub!(/#{tag}/,
-          "<h2 class='cap'><a href='#{filename.downcase}'>#{filename}</a></h2>" +
-          File.read("#$input_dir/#{filename.downcase}.html"))
+          "<h2 class='cap'><a href='#{filename}'>#{linkname}</a></h2>" +
+          File.read("#$input_dir/#{filename}"))
       else
-        puts "Missing file: #{filename.downcase}.html embedded on #{f}"
-        content.sub!(/#{tag}/, "<div class='error'>Missing file: #{filename.downcase}.html</div>")
+        puts "Missing file: #{filename} embedded on #{f}"
+        content.sub!(/#{tag}/, "<div class='error'>Missing file: #{filename}</div>")
       end
     else
-      a_tag = tag.sub(/^\{/, "<a href='#{filename.downcase}.html'>")
+      a_tag = tag.sub(/^\{/, "<a href='#{filename}'>")
       a_tag.sub!(/\}$/, "</a>")
       content.sub!(/#{tag}/, a_tag)
     end
@@ -67,7 +69,6 @@ def build()
       f.puts "</head><body>"
       f.puts "<header><a href='home.html'><img src='#$links/icon.svg'><span>#$name</span></a></header>"
       f.puts "<div class='flex'><nav>#{nav}</nav>"
-      f.puts "<!-- Generated file -->"
       f.puts "<main><h1>#{title}</h1>"
       f.puts "#{content}"
       f.puts "</main></div>"
