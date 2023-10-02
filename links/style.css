@@ -63,7 +63,6 @@ a {color: inherit;}
 .gallery img {height: 15rem; width: 100%; object-fit: cover; padding: 0;}
 
 .error {background-color: crimson; padding: 1rem;}
-.flex {display: flex;}
 .nodec {text-decoration: none;}
 .nobull {list-style-type: none;}
 .cap:first-letter {text-transform: capitalize;}
