@@ -14,7 +14,7 @@ def parse(f)
     filename.gsub!(/\s/, "_")
     linkname = filename
     filename = "#{filename.downcase}.html"
-    
+
     if tag.match?(/\{\/.*?\}/)
       if File.exists?("#$input_dir/#{filename}")
         content.sub!(/#{tag}/,
@@ -68,10 +68,10 @@ def build()
       f.puts "<link href='#$links/icon.svg' rel='icon'>"
       f.puts "</head><body>"
       f.puts "<header><a href='home.html'><img src='#$links/icon.svg'><span>#$name</span></a></header>"
-      f.puts "<div class='flex'><nav>#{nav}</nav>"
+      f.puts "<nav>#{nav}</nav>"
       f.puts "<main><h1>#{title}</h1>"
       f.puts "#{content}"
-      f.puts "</main></div>"
+      f.puts "</main>"
       f.puts "<footer>"
       f.puts "<span>ssr7 &copy; 2023</span>"
       f.puts "<span>Last modified: #{modified.strftime("%T %Z %A, %-d %B %Y")}"
