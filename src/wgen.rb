@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $name = "Seabreeze"
 $url = "https://seabreeze.neocities.org"
-$source = "https://codeberg.org/ssr7/wgen"
+$source = "https://github.com/cdr0m/wgen"
 $input_dir = "inc"
 $output_dir = "../site"
 $links = "../links" # stylesheet, favicon, etc
@@ -75,7 +75,7 @@ def build()
       f.puts "<footer>"
       f.puts "<span>ssr7 &copy; 2023</span>"
       f.puts "<span>Last modified: #{modified.strftime("%T %Z %A, %-d %B %Y")}"
-      f.puts "<a href='#$source/_edit/master/src/inc/#{file}' target='_blank'>[edit]</a></span>"
+      f.puts "<a href='#$source/edit/master/src/inc/#{file}' target='_blank'>[edit]</a></span>"
       f.puts "</footer>"
       f.puts "</body></html>"
       f.close
