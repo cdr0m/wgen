@@ -55,7 +55,7 @@ a {color: inherit;}
 
 .gallery {
     display: grid;
-    grid-template-rows: 1fe;
+    grid-template-rows: 1fr;
     grid-template-columns: repeat(3, 1fr);
     row-gap: 0.5rem;
     column-gap: 0.5rem;
