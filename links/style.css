@@ -65,13 +65,14 @@ a {color: inherit;}
 .error {background-color: crimson; padding: 1rem;}
 .nodec {text-decoration: none;}
 .nobull {list-style-type: none;}
+.col2 {columns: 2;}
 .cap:first-letter {text-transform: capitalize;}
 
 @media (prefers-color-scheme: light) {
     body {background-color: var(--col-white); color: var(--col-black);}
 }
 
-@media (max-width: 850px) {
+@media screen and (max-width: 850px) {
     body {grid-template-rows: 5rem auto auto 4rem; grid-template-columns: 1fr;}
     nav {grid-column: 1/-1; display: flex;}
     nav div {width: 33%; margin: 0;}
